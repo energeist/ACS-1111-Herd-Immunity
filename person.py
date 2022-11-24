@@ -92,7 +92,6 @@ if __name__ == "__main__":
     print(did_survived)
     print(did_not_survive)
     # Count the people that survived and did not survive: 
-   
 
     # TODO Loop over all of the people 
     # TODO If a person is_alive True add one to did_survive
@@ -110,6 +109,19 @@ if __name__ == "__main__":
     # infection rate of the virus that person is now infected. 
     # Assign the virus to that person's infection attribute. 
 
+    uninfected_people = []
+    new_infection = 0
+    for i in range(1, 101):
+        uninfected_people.append(Person(i, False))
+    
+    for person in uninfected_people:
+        random_infection = random.random()
+        if random_infection < virus.repro_rate:
+            person.infection = virus
+            new_infection += 1
+        pass
+    
+    print(new_infection)
     # Now count the infected and uninfect people from this group of people. 
     # The number of infectedf people should be roughly the same as the 
     # infection rate of the virus.
