@@ -34,9 +34,6 @@ class Simulation(object):
             people.append(Person(i, False))
         for i in range(0, math.floor(self.pop_size * self.vacc_percentage)):
             people[i].is_vaccinated = True
-        print('pop_size - self.initial_infected - 1')
-        print(f'{self.pop_size} - {self.initial_infected}')
-        print(pop_size - self.initial_infected - 1)
         start_index = (self.pop_size - self.initial_infected)
         for i in range(start_index, (self.pop_size)):
             # print(f'{people[i]._id} {people[i].infection}')
@@ -55,11 +52,14 @@ class Simulation(object):
         pass
 
     def _simulation_should_continue(self):
+        current_infections = 0
         for person in self.people:
-            if person.is_alive and not person.is_vaccinated and not person.infection:
+            if person.is_alive and person.infection:
+                return True
+            if person.is_alive and not person.is_vaccinated:
                 return True
         return False
-        # This method will return a booleanb indicating if the simulation 
+        # This method will return a boolean indicating if the simulation 
         # should continue. 
         # The simulation should not continue if all of the people are dead, 
         # or if all of the living people have been vaccinated. 
@@ -78,7 +78,7 @@ class Simulation(object):
         number_infected = 0
         self.dead_people = []
         self.newly_infected = []
-
+        count = 0
         while should_continue:
             # TODO: Increment the time_step_counter
             # TODO: for every iteration of this loop, call self.time_step() 
@@ -99,8 +99,10 @@ class Simulation(object):
             time_step_counter += 1
             number_dead = len(self.dead_people)
             self.time_step()
-            # NEED TO GENERATE RANDOM PEOPLE AND DO INTERACTIONS THEN INFECT NEWLY INFECTED
+            print('len self newly infected after timestep')
+            print(len(self.newly_infected))
             self._infect_newly_infected()
+            count += 1
             should_continue = self._simulation_should_continue()
             pass
 
@@ -127,19 +129,18 @@ class Simulation(object):
         print(f'k = {k}')
         print(len(self.people))
         for person in self.people:
-            random_sample = random.sample(self.people, k)
             if person.infection:
+                random_sample = random.sample(self.people, k)
                 for random_person in random_sample:
                     self.interaction(person, random_person)
-            random_death = random.random()
-            if random_death < virus.mortality_rate:
-                print('o no im ded')
-                person.is_alive = False
-                self.dead_people.append(self.people.remove(person))
-            else:
-                print('yay not ded')
-                person.is_vaccinated = True
-                person.infection = None
+                random_death = random.random()
+                if random_death < virus.mortality_rate:
+                    person.is_alive = False
+                    self.dead_people.append(person)
+                    self.people.remove(person)
+                else:
+                    person.is_vaccinated = True
+                    person.infection = None
 
         ###TODO: Add in a time counter so that a person gets vaccinated status after x number of days?
         pass
