@@ -4,9 +4,8 @@ from person import Person
 from logger import Logger
 from virus import Virus
 
-
 class Simulation(object):
-    def __init__(self, virus, pop_size, vacc_percentage, initial_infected=1):
+    def __init__(self, virus, pop_size, vacc_percentage, initial_infected=10):
         # TODO: Create a Logger object and bind it to self.logger.
         # Remember to call the appropriate logger method in the corresponding parts of the simulation.
         
@@ -15,6 +14,7 @@ class Simulation(object):
         self.vacc_percentage = vacc_percentage
         self.initial_infected = initial_infected
         self.people = self._create_population()
+        # self.logger = Logger()
 
         # TODO: Store the virus in an attribute
         # TODO: Store pop_size in an attribute
@@ -30,11 +30,12 @@ class Simulation(object):
 
     def _create_population(self):
         people = []
-        for i in range(1, ((pop_size + 1) - initial_infected)):
+        for i in range(1, pop_size + 1):
             people.append(Person(i, False))
-            last_id = i
-        for j in range(initial_infected):
-            people.append(Person((j + last_id), False, virus))
+        for i in range(0, initial_infected):
+            people[i].infection = virus
+        for person in people:
+            print (f'{person._id} {person.infection}')   
         return people
 
         # TODO: Create a list of people (Person instances). This list 
@@ -46,7 +47,7 @@ class Simulation(object):
 
     def _simulation_should_continue(self):
         for person in self.people:
-            if person.is_alive and not person.is_vaccinated:
+            if person.is_alive and not person.is_vaccinated and not person.infection:
                 return True
         return False
         # This method will return a booleanb indicating if the simulation 
@@ -160,9 +161,9 @@ if __name__ == "__main__":
     virus = Virus(virus_name, repro_num, mortality_rate)
 
     # Set some values used by the simulation
-    pop_size = 1000
+    pop_size = 40
     vacc_percentage = 0.1
-    initial_infected = 10
+    initial_infected = 35
 
     # Make a new instance of the simulation
     virus = Virus(virus_name, repro_num, mortality_rate)

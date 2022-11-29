@@ -15,8 +15,9 @@ class Person(object):
         pass
 
     def did_survive_infection(self):
-        random_number = random.random()
-        return (random_number > self.infection.mortality_rate)    
+        if self.infection:
+            random_number = random.random()
+            return (random_number > self.infection.mortality_rate)    
         # This method checks if a person survived an infection. 
         # TODO Only called if infection attribute is not None.
         # Check generate a random number between 0.0 - 1.0
