@@ -1,4 +1,4 @@
-import random, sys
+import random, sys, math
 # random.seed(42)
 from person import Person
 from logger import Logger
@@ -30,12 +30,21 @@ class Simulation(object):
 
     def _create_population(self):
         people = []
-        for i in range(1, pop_size + 1):
+        for i in range(1, self.pop_size + 1): ## need to start at i = 1 for non-zero ID
             people.append(Person(i, False))
-        for i in range(0, initial_infected):
+        for i in range(0, math.floor(self.pop_size * self.vacc_percentage)):
+            people[i].is_vaccinated = True
+        print('pop_size - self.initial_infected - 1')
+        print(f'{self.pop_size} - {self.initial_infected}')
+        print(pop_size - self.initial_infected - 1)
+        start_index = (self.pop_size - self.initial_infected)
+        for i in range(start_index, (self.pop_size)):
+            # print(f'{people[i]._id} {people[i].infection}')
             people[i].infection = virus
+            # print(f'{people[i]._id} {people[i].infection}')
+        print ('ID | is_alive | is_vax | infection')
         for person in people:
-            print (f'{person._id} {person.infection}')   
+            print (f'{person._id} | {person.is_alive} | {person.is_vaccinated} | {person.infection}')   
         return people
 
         # TODO: Create a list of people (Person instances). This list 
@@ -67,25 +76,28 @@ class Simulation(object):
         should_continue = True
         number_dead = 0
         number_infected = 0
+        self.dead_people = []
 
         while should_continue:
             # TODO: Increment the time_step_counter
             # TODO: for every iteration of this loop, call self.time_step() 
             # Call the _simulation_should_continue method to determine if 
             # the simulation should continue
-            time_step_counter += 1
             # make people die here?
-            self.time_step()
+            number_infected = 0
+            number_vaccinated = 0
             for person in self.people:
                 if person.infection and person.is_alive:
                     number_infected += 1
-                    random_death = random.random()
-                    if random_death < virus.mortality_rate:
-                        person.is_alive = False
-                        number_dead += 1
+                if person.is_vaccinated:
+                    number_vaccinated += 1
             print(f"Timestep: {time_step_counter}")
-            print(f"Number alive: {(len(self.people)) - number_dead}")
+            print(f"Number alive: {(len(self.people))}")
             print(f"Number healthy: {(len(self.people) - number_infected)}")
+            print(f"Number vaccinated: {number_vaccinated}")
+            time_step_counter += 1
+            number_dead = len(self.dead_people)
+            self.time_step()
             # NEED TO GENERATE RANDOM PEOPLE AND DO INTERACTIONS THEN INFECT NEWLY INFECTED
             self._infect_newly_infected()
             should_continue = self._simulation_should_continue()
@@ -112,11 +124,21 @@ class Simulation(object):
         if (len(self.people)) < 100:
             k = len(self.people)
         print(f'k = {k}')
+        print(len(self.people))
+        random_sample = random.sample(self.people, k)
         for person in self.people:
-            random_sample = random.sample(self.people, k)
             if person.infection:
                 for random_person in random_sample:
                     self.interaction(person, random_person)
+            random_death = random.random()
+            if random_death < virus.mortality_rate:
+                person.is_alive = False
+                self.dead_people.append(self.people.remove(person))
+            else:
+                person.is_vaccinated = True
+                person.infection = None
+
+        ###TODO: Add in a time counter so that a person gets vaccinated status after x number of days?
         pass
 
     def interaction(self, infected_person, random_person):
@@ -162,8 +184,8 @@ if __name__ == "__main__":
 
     # Set some values used by the simulation
     pop_size = 40
-    vacc_percentage = 0.1
-    initial_infected = 35
+    vacc_percentage = 0.11
+    initial_infected = 20
 
     # Make a new instance of the simulation
     virus = Virus(virus_name, repro_num, mortality_rate)
