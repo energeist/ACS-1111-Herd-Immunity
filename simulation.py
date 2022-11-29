@@ -42,9 +42,9 @@ class Simulation(object):
             # print(f'{people[i]._id} {people[i].infection}')
             people[i].infection = virus
             # print(f'{people[i]._id} {people[i].infection}')
-        print ('ID | is_alive | is_vax | infection')
-        for person in people:
-            print (f'{person._id} | {person.is_alive} | {person.is_vaccinated} | {person.infection}')   
+        # print ('ID | is_alive | is_vax | infection')
+        # for person in people:
+        #     print (f'{person._id} | {person.is_alive} | {person.is_vaccinated} | {person.infection}')   
         return people
 
         # TODO: Create a list of people (Person instances). This list 
@@ -77,6 +77,7 @@ class Simulation(object):
         number_dead = 0
         number_infected = 0
         self.dead_people = []
+        self.newly_infected = []
 
         while should_continue:
             # TODO: Increment the time_step_counter
@@ -87,7 +88,7 @@ class Simulation(object):
             number_infected = 0
             number_vaccinated = 0
             for person in self.people:
-                if person.infection and person.is_alive:
+                if person.infection:
                     number_infected += 1
                 if person.is_vaccinated:
                     number_vaccinated += 1
@@ -125,16 +126,18 @@ class Simulation(object):
             k = len(self.people)
         print(f'k = {k}')
         print(len(self.people))
-        random_sample = random.sample(self.people, k)
         for person in self.people:
+            random_sample = random.sample(self.people, k)
             if person.infection:
                 for random_person in random_sample:
                     self.interaction(person, random_person)
             random_death = random.random()
             if random_death < virus.mortality_rate:
+                print('o no im ded')
                 person.is_alive = False
                 self.dead_people.append(self.people.remove(person))
             else:
+                print('yay not ded')
                 person.is_vaccinated = True
                 person.infection = None
 
@@ -153,22 +156,24 @@ class Simulation(object):
             #     than repro_rate, add that person to the newly infected array
             #     Simulation object's newly_infected array, so that their infected
             #     attribute can be changed to True at the end of the time step.
-        self.newly_infected = []
         # if random_person.is_vaccinated:
         #     pass
         # elif random_person.infection:
         #     pass
-        if not random_person.is_vaccinated and (random_person.infection == None):
+        if (random_person.infection == None) and (not random_person.is_vaccinated):
             random_infection_chance = random.random()
-            if random_infection_chance < virus.repro_rate:
+            if random_infection_chance < self.virus.repro_rate:
                 self.newly_infected.append(random_person)
             
         # TODO: Call logger method during this method.
         pass
 
     def _infect_newly_infected(self):
+        print('len(self.newly_infected)')
+        print(len(self.newly_infected))
         for person in self.newly_infected:
-            person.infection = virus
+            person.infection = self.virus
+        self.newly_infected = []
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
@@ -178,12 +183,12 @@ class Simulation(object):
 if __name__ == "__main__":
     # Test your simulation here
     virus_name = "Sniffles"
-    repro_num = 0.5
+    repro_num = 0.02
     mortality_rate = 0.12
     virus = Virus(virus_name, repro_num, mortality_rate)
 
     # Set some values used by the simulation
-    pop_size = 40
+    pop_size = 200
     vacc_percentage = 0.11
     initial_infected = 20
 
