@@ -55,10 +55,14 @@ class Simulation(object):
         current_infections = 0
         for person in self.people:
             if person.is_alive and person.infection:
-                return True
-            if person.is_alive and not person.is_vaccinated:
-                return True
-        return False
+                current_infections += 1
+            # if person.is_alive and not person.is_vaccinated:
+            #     return True
+        print('current infections:')
+        print(current_infections)
+        if current_infections == 0:
+            return False
+        return True
         # This method will return a boolean indicating if the simulation 
         # should continue. 
         # The simulation should not continue if all of the people are dead, 
@@ -79,6 +83,7 @@ class Simulation(object):
         self.dead_people = []
         self.newly_infected = []
         count = 0
+        # while count < 10:
         while should_continue:
             # TODO: Increment the time_step_counter
             # TODO: for every iteration of this loop, call self.time_step() 
@@ -92,6 +97,7 @@ class Simulation(object):
                     number_infected += 1
                 if person.is_vaccinated:
                     number_vaccinated += 1
+            print(f'\n----------------------')
             print(f"Timestep: {time_step_counter}")
             print(f"Number alive: {(len(self.people))}")
             print(f"Number healthy: {(len(self.people) - number_infected)}")
@@ -103,6 +109,8 @@ class Simulation(object):
             print(len(self.newly_infected))
             self._infect_newly_infected()
             count += 1
+            print('should continue?')
+            print(self._simulation_should_continue())
             should_continue = self._simulation_should_continue()
             pass
 
@@ -184,14 +192,14 @@ class Simulation(object):
 if __name__ == "__main__":
     # Test your simulation here
     virus_name = "Sniffles"
-    repro_num = 0.02
+    repro_num = 0.04
     mortality_rate = 0.12
     virus = Virus(virus_name, repro_num, mortality_rate)
 
     # Set some values used by the simulation
-    pop_size = 200
+    pop_size = 10000
     vacc_percentage = 0.11
-    initial_infected = 20
+    initial_infected = 300
 
     # Make a new instance of the simulation
     virus = Virus(virus_name, repro_num, mortality_rate)
