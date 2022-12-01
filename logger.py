@@ -1,7 +1,11 @@
+from datetime import datetime
+
 class Logger(object):
     def __init__(self, file_name):
         # TODO:  Finish this initialization method. The file_name passed should be the
         # full file name of the file that the logs will be written to.
+        self.file_name = file_name
+        self.date_invoked = (datetime.now().strftime("%b/%d/%Y %H:%M:%S"))
         pass
 
     # The methods below are just suggestions. You can rearrange these or 
@@ -20,17 +24,23 @@ class Logger(object):
     #   The population size, the number of living, the number of dead, the number 
     #   of vaccinated, and the number of steps to reach the end of the simulation. 
 
-    def write_metadata(self, pop_size, vacc_percentage, virus_name, mortality_rate,
-                       basic_repro_num):
+    def write_metadata(self, pop_size, vacc_percentage, initial_infected, virus_name, mortality_rate, basic_repro_num):
+        
         # TODO: Finish this method. This line of metadata should be tab-delimited
         # it should create the text file that we will store all logs in.
         # TIP: Use 'w' mode when you open the file. For all other methods, use
         # the 'a' mode to append a new log to the end, since 'w' overwrites the file.
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
+        outfile = open(self.file_name, 'w')
+        outfile.write(f'# SIMULATION SUMMARY\nSimulation was run at {self.date_invoked}\n- Initial population size: {pop_size}\n- Population vaccination rate: {vacc_percentage*100}%\n- Initial infected people: {initial_infected}\n- Virus name: {virus_name}\n- Virus mortality rate: {mortality_rate}\n- Virus reproduction number: {basic_repro_num}\n')
+        outfile.close()
         pass
 
-    def log_interactions(self, step_number, number_of_interactions, number_of_new_infections):
+    def log_interactions(self, step_number, number_of_interactions, number_of_new_infections, number_new_dead, number_new_vaccinated):
+        outfile = open(self.file_name, 'a')
+        outfile.write(f'\n## End of time step {step_number}\n- Number of interactions: {number_of_interactions}\n- Number of new infections: {number_of_new_infections}\n- Number of people that died on this timestep: {number_new_dead}\n- Number of people vaccinated on this timestep: {number_new_vaccinated}\n')
+        outfile.close()
         # TODO: Finish this method. Think about how the booleans passed (or not passed)
         # represent all the possible edge cases. Use the values passed along with each person,
         # along with whether they are sick or vaccinated when they interact to determine
@@ -38,6 +48,9 @@ class Logger(object):
         pass
 
     def log_infection_survival(self, step_number, population_count, number_of_new_fatalities):
+        outfile = open(self.file_name, 'a')
+        outfile.write(f'\nCurrent time step: {step_number}\nNumber of interactions: {number_of_interactions}\n Number of new infections: {number_of_new_infections}\n')
+        outfile.close()
         # TODO: Finish this method. If the person survives, did_die_from_infection
         # should be False.  Otherwise, did_die_from_infection should be True.
         # Append the results of the infection to the logfile
