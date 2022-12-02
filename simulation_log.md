@@ -1,5 +1,6 @@
 # SIMULATION SUMMARY
-Simulation was run at Dec/01/2022 21:33:39
+Simulation was run at Dec/01/2022 22:00:13
+##Starting conditions
 - Initial population size: 10000
 - Population vaccination rate: 11.0%
 - Initial infected people: 300
@@ -8,43 +9,49 @@ Simulation was run at Dec/01/2022 21:33:39
 - Virus reproduction number: 0.04
 
 ## End of time step 1
-- Number of interactions: 27600
-- Number of new infections: 951
-- Number of people that died on this timestep: 24
-- Number of people vaccinated on this timestep: 252
+- Number of interactions: 27400
+- Number of new infections: 925
+- Number of people that died on this timestep: 26
+- Number of people vaccinated on this timestep: 248
 
 ## End of time step 2
-- Number of interactions: 91800
-- Number of new infections: 2781
-- Number of people that died on this timestep: 111
-- Number of people vaccinated on this timestep: 807
+- Number of interactions: 89700
+- Number of new infections: 2719
+- Number of people that died on this timestep: 102
+- Number of people vaccinated on this timestep: 795
 
 ## End of time step 3
-- Number of interactions: 228400
-- Number of new infections: 5047
-- Number of people that died on this timestep: 284
-- Number of people vaccinated on this timestep: 2000
+- Number of interactions: 223500
+- Number of new infections: 4934
+- Number of people that died on this timestep: 258
+- Number of people vaccinated on this timestep: 1977
 
 ## End of time step 4
-- Number of interactions: 320200
-- Number of new infections: 2806
-- Number of people that died on this timestep: 359
-- Number of people vaccinated on this timestep: 2843
+- Number of interactions: 320000
+- Number of new infections: 2850
+- Number of people that died on this timestep: 348
+- Number of people vaccinated on this timestep: 2852
 
 ## End of time step 5
-- Number of interactions: 166000
-- Number of new infections: 390
-- Number of people that died on this timestep: 202
-- Number of people vaccinated on this timestep: 1458
+- Number of interactions: 166900
+- Number of new infections: 446
+- Number of people that died on this timestep: 197
+- Number of people vaccinated on this timestep: 1472
 
 ## End of time step 6
-- Number of interactions: 31600
-- Number of new infections: 27
+- Number of interactions: 35500
+- Number of new infections: 57
 - Number of people that died on this timestep: 35
-- Number of people vaccinated on this timestep: 281
+- Number of people vaccinated on this timestep: 320
 
 ## End of time step 7
-- Number of interactions: 2800
+- Number of interactions: 5200
+- Number of new infections: 2
+- Number of people that died on this timestep: 4
+- Number of people vaccinated on this timestep: 48
+
+## End of time step 8
+- Number of interactions: 200
 - Number of new infections: 0
-- Number of people that died on this timestep: 5
-- Number of people vaccinated on this timestep: 23
+- Number of people that died on this timestep: 0
+- Number of people vaccinated on this timestep: 2

@@ -5,7 +5,7 @@ class Logger(object):
         # TODO:  Finish this initialization method. The file_name passed should be the
         # full file name of the file that the logs will be written to.
         self.file_name = file_name
-        self.date_invoked = (datetime.now().strftime("%b/%d/%Y %H:%M:%S"))
+        self.date_invoked = (datetime.now().astimezone().strftime("%b/%d/%Y %H:%M:%S"))
         pass
 
     # The methods below are just suggestions. You can rearrange these or 
@@ -33,7 +33,7 @@ class Logger(object):
         # NOTE: Make sure to end every line with a '/n' character to ensure that each
         # event logged ends up on a separate line!
         outfile = open(self.file_name, 'w')
-        outfile.write(f'# SIMULATION SUMMARY\nSimulation was run at {self.date_invoked}\n- Initial population size: {pop_size}\n- Population vaccination rate: {vacc_percentage*100}%\n- Initial infected people: {initial_infected}\n- Virus name: {virus_name}\n- Virus mortality rate: {mortality_rate}\n- Virus reproduction number: {basic_repro_num}\n')
+        outfile.write(f'# SIMULATION SUMMARY\nThis output file was generated at {self.date_invoked}\n##Starting conditions\n- Initial population size: {pop_size}\n- Population vaccination rate: {vacc_percentage*100}%\n- Initial infected people: {initial_infected}\n- Virus name: {virus_name}\n- Virus mortality rate: {mortality_rate}\n- Virus reproduction number: {basic_repro_num}\n')
         outfile.close()
         pass
 
