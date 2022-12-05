@@ -6,7 +6,6 @@ class Virus(object):
         self.repro_rate = repro_rate
         self.mortality_rate = mortality_rate
         # TODO Define the other attributes of Virus
-        pass
 
 # Test this class
 if __name__ == "__main__":

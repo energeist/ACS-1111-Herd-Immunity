@@ -12,7 +12,6 @@ class Person(object):
         self.infection = infection
         self.is_alive = True
         # TODO Define the other attributes of a person here
-        pass
 
     def did_survive_infection(self):
         if self.infection:
@@ -36,11 +35,6 @@ if __name__ == "__main__":
     assert vaccinated_person.is_alive is True
     assert vaccinated_person.is_vaccinated is True
     assert vaccinated_person.infection is None
-
-    # print(vaccinated_person._id)
-    # print(vaccinated_person.is_alive)
-    # print(vaccinated_person.is_vaccinated)
-    # print(vaccinated_person.infection)
 
     # Create an unvaccinated person and test their attributes
     unvaccinated_person = Person(2, False)
@@ -71,7 +65,6 @@ if __name__ == "__main__":
     people = []
     for i in range(1, 101):
         people.append(Person(i, False, virus))
-        pass
 
     # for person in people:
     #     print (person._id)
@@ -120,7 +113,6 @@ if __name__ == "__main__":
         if random_infection < virus.repro_rate:
             person.infection = virus
             new_infection += 1
-        pass
     
     print(new_infection)
     # Now count the infected and uninfect people from this group of people. 
