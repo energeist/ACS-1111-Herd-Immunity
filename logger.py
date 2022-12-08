@@ -20,8 +20,8 @@ class Logger(object):
         outfile.write(f'')
         outfile.close()
 
-    def final_log(self, reason_for_ending, pop_size, total_deaths, remaining_alive, initial_vacc, final_vacc, total_unique_infections, total_vaccine_saves):
+    def final_log(self, reason_for_ending, pop_size, total_deaths, remaining_alive, initial_vacc, final_vacc, total_unique_infections, total_vaccine_saves, sim_time_string):
         outfile = open(self.file_name, 'a')
-        outfile.write(f'\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n')
+        outfile.write(f'\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n- Overall sim runtime: {sim_time_string} seconds')
         outfile.close()
 

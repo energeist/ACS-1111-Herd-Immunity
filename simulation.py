@@ -21,7 +21,14 @@ class Simulation(object):
         self.step_vaccine_saves = 0
         self.vaccine_saves = 0
         self.reason_for_ending = ''
-        # self.logger = Logger()
+        self.logger = Logger('simulation_log.md')
+
+        # ending state attributes
+        self.total_interactions = 0
+        self.total_deaths = 0
+        #self.remaining_alive <-- inferred
+        self.final_vacc = 0
+        self.total_unique_infections = 0
 
         # TODO: Store the virus in an attribute
         # TODO: Store pop_size in an attribute
@@ -131,38 +138,49 @@ class Simulation(object):
         # have that person interact with 100 other living people 
         # Run interactions by calling the interaction method below. That method
         # takes the infected person and a random person
-        self.number_of_interactions = 0
+        self.step_number_of_interactions = 0
         self.death_counter = 0
         self.vacc_counter = 0
-        time_start = datetime.now()
+        step_time_start = datetime.now()
         k = 100
 
+        # list of people still living 
         step_alive_people = []
-        step_dead_people = []
+        # list of dead people?
+        step_dead_people = 0
+        # list of infected people
         step_infected_people = []
-        step_healthy_people = []
-        step_vaccinated_people = []
-        step_unvaccinated_people = []
+        # list of healthy people?
+        step_healthy_people = 0
+        # list of vaccinated people?
+        step_vaccinated_people = 0
+        # list of unvaccinated people?
+        step_unvaccinated_people = 0
+
         for person in self.people:
             if person.is_alive:
                 step_alive_people.append(person)
                 if person.infection:
                     step_infected_people.append(person)
-                else: step_healthy_people.append(person)
+                else: 
+                    step_healthy_people += 1
                 if person.is_vaccinated:
-                    step_vaccinated_people.append(person)
+                    step_vaccinated_people += 1
                 else:
-                    step_unvaccinated_people.append(person)
+                    step_unvaccinated_people += 1
             else:
-                step_dead_people.append(person)
+                step_dead_people += 1
+        ## data for matplotlib
+        # self.alive_per_step.append(len(step_alive_people))
+
         #debugging
-        print(f"Length of people array: {len(self.people)} vs Len of alive + dead: {len(step_alive_people) + len(step_dead_people)}")
+        print(f"Length of people array: {len(self.people)} vs Len of alive + dead: {len(step_alive_people) + step_dead_people}")
         print(f"len alive: {len(step_alive_people)}")
-        print(f"len dead: {len(step_dead_people)} // {len(self.dead_people)}")
-        print(f"len vaccinated: {len(step_vaccinated_people)}")
-        print(f"len unvaccinated: {len(step_unvaccinated_people)}")
+        print(f"len dead: {step_dead_people}")
+        print(f"len vaccinated: {step_vaccinated_people}")
+        print(f"len unvaccinated: {step_unvaccinated_people}")
         print(f"len infected: {len(step_infected_people)}")
-        print(f"len healthy: {len(step_healthy_people)}")
+        print(f"len healthy: {step_healthy_people}")
         ##
         if (len(step_alive_people)) < 100:
             k = len(step_alive_people)
@@ -182,13 +200,15 @@ class Simulation(object):
                         self.vacc_counter += 1
                         person.is_vaccinated = True
                         person.infection = None
-        print(f"Length newly infected: {len(self.newly_infected)}")
-        time_end = datetime.now()
-        time_interval = time_end - time_start
-        s = time_interval.seconds
-        ms = f'00{int(time_interval.microseconds / 1000)}'[-3:]
-        time_string = f'{s % 60}.{ms}'
-        logger.log_interactions(self.time_step_counter, self.number_of_interactions, len(self.newly_infected), self.death_counter, self.vacc_counter, self.step_vaccine_saves, time_string)
+        ## step calculation time
+        step_time_end = datetime.now()
+        step_time_interval = step_time_end - step_time_start
+        s = step_time_interval.seconds
+        ms = f'00{int(step_time_interval.microseconds / 1000)}'[-3:]
+        step_time_string = f'{s % 60}.{ms}'
+        
+        self.logger.log_interactions(self.time_step_counter, self.step_number_of_interactions, len(self.newly_infected), self.death_counter, self.vacc_counter, self.step_vaccine_saves, step_time_string)
+        self.total_interactions += self.step_number_of_interactions
         self.step_vaccine_saves = 0
 
     def interaction(self, infected_person, random_person):
@@ -207,7 +227,7 @@ class Simulation(object):
         #     pass
         # elif random_person.infection:
         #     pass
-        self.number_of_interactions += 1
+        self.step_number_of_interactions += 1
         if (random_person.infection == None) and (not random_person.is_vaccinated) and (random_person not in self.newly_infected):
             random_infection_chance = random.random()
             if random_infection_chance < self.virus.repro_rate:
@@ -223,8 +243,8 @@ class Simulation(object):
 
 if __name__ == "__main__":
 
+    sim_time_start = datetime.now()
     #parse CLI arguments
-
     parser = argparse.ArgumentParser()
     parser.add_argument('pop_size', metavar='pop_size', type=int, help="Starting population size as int")
     parser.add_argument('vacc_percentage', metavar='vacc_percentage', type=float, help="Vaccination percentage as decimal number as float")
@@ -250,7 +270,6 @@ if __name__ == "__main__":
     mortality_rate = args.mortality_rate
     virus = Virus(virus_name, repro_num, mortality_rate)
 
-
     pop_size = args.pop_size
     vacc_percentage = args.vacc_percentage
     initial_infected = args.initial_infected
@@ -260,8 +279,14 @@ if __name__ == "__main__":
     sim = Simulation(virus, pop_size, vacc_percentage, initial_infected)
     print(len(sim.people))
     print(sim._simulation_should_continue())
-    logger.write_metadata(pop_size, vacc_percentage, initial_infected, virus_name, mortality_rate, repro_num)
+    sim.logger.write_metadata(pop_size, vacc_percentage, initial_infected, virus_name, mortality_rate, repro_num)
     sim.run()
+    sim_time_end = datetime.now()
+    sim_time_interval = sim_time_end - sim_time_start
+    sim_s = sim_time_interval.seconds
+    sim_ms = f'00{int(sim_time_interval.microseconds / 1000)}'[-3:]
+    sim_time_string = f'{sim_s % 60}.{sim_ms}'
+    logger.final_log(sim.reason_for_ending, pop_size, sim.total_deaths, (int(pop_size) - sim.total_deaths), round(int(pop_size)*float(vacc_percentage)), sim.final_vacc, sim.total_unique_infections, sim.vaccine_saves, sim_time_string)
 
 ### NOTE:
 
