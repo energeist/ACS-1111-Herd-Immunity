@@ -20,6 +20,7 @@ class Simulation(object):
         self.people = self._create_population()
         self.step_vaccine_saves = 0
         self.vaccine_saves = 0
+        self.reason_for_ending = ''
         # self.logger = Logger()
 
         # TODO: Store the virus in an attribute
@@ -51,15 +52,28 @@ class Simulation(object):
         # TODO: Return the list of people
 
     def _simulation_should_continue(self):
+        current_alive = 0
+        current_dead = 0
         current_infections = 0
+        current_vaccinated = 0
         for person in self.people:
-            if person.is_alive and person.infection:
-                current_infections += 1
+            if person.is_alive:
+                current_alive += 1
+                if person.is_vaccinated:
+                    current_vaccinated += 1
+                if person.infection:
+                    current_infections += 1
+            else:
+                current_dead += 1
             # if person.is_alive and not person.is_vaccinated:
             #     return True
         print('current infections:')
         print(current_infections)
         if current_infections == 0:
+            self.reason_for_ending = 'Virus burned out - no more infections.'
+            return False
+        elif current_dead + current_vaccinated == len(self.people):
+            self.reason_for_ending = 'Everyone is dead or vaccinated.'
             return False
         return True
         # This method will return a boolean indicating if the simulation 
@@ -172,7 +186,7 @@ class Simulation(object):
         time_end = datetime.now()
         time_interval = time_end - time_start
         s = time_interval.seconds
-        ms = int(time_interval.microseconds / 1000)
+        ms = f'00{int(time_interval.microseconds / 1000)}'[-3:]
         time_string = f'{s % 60}.{ms}'
         logger.log_interactions(self.time_step_counter, self.number_of_interactions, len(self.newly_infected), self.death_counter, self.vacc_counter, self.step_vaccine_saves, time_string)
         self.step_vaccine_saves = 0
@@ -201,7 +215,6 @@ class Simulation(object):
         elif random_person.is_alive:
             self.step_vaccine_saves += 1
             self.vaccine_saves += 1
-
 
     def _infect_newly_infected(self):
         for person in self.newly_infected:

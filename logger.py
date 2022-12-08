@@ -15,8 +15,13 @@ class Logger(object):
         outfile.write(f'\n## End of time step {step_number}\n- Number of interactions: {number_of_interactions}\n- Number of new infections: {number_of_new_infections}\n- Number of people that died on this timestep: {number_new_dead}\n- Number of people vaccinated on this timestep: {number_new_vaccinated}\n- Number of times a vaccine prevented infection on this timestep: {step_vaccine_saves} \n- Sim calculation time for this step: {time_interval} second(s)\n')
         outfile.close()
 
-    def log_infection_survival(self, step_number, population_count, number_of_new_fatalities):
+    def log_percent_change():
         outfile = open(self.file_name, 'a')
-        outfile.write(f'\nCurrent time step: {step_number}\nNumber of interactions: {number_of_interactions}\n Number of new infections: {number_of_new_infections}\n')
+        outfile.write(f'')
+        outfile.close()
+
+    def final_log(self, reason_for_ending, pop_size, total_deaths, remaining_alive, initial_vacc, final_vacc, total_unique_infections, total_vaccine_saves):
+        outfile = open(self.file_name, 'a')
+        outfile.write(f'\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n')
         outfile.close()
 
