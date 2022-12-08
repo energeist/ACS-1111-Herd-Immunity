@@ -125,20 +125,46 @@ class Simulation(object):
         self.vacc_counter = 0
         time_start = datetime.now()
         k = 100
-        if (len(self.people)) < 100:
-            k = len(self.people)
+        step_alive_people = []
+        step_dead_people = []
+        step_infected_people = []
+        step_healthy_people = []
+        step_vaccinated_people = []
+        step_unvaccinated_people = []
         for person in self.people:
             if person.is_alive:
+                step_alive_people.append(person)
                 if person.infection:
-                    random_sample = random.sample(self.people, k)
+                    step_infected_people.append(person)
+                else: step_healthy_people.append(person)
+                if person.is_vaccinated:
+                    step_vaccinated_people.append(person)
+                else:
+                    step_unvaccinated_people.append(person)
+            else:
+                step_dead_people.append(person)
+        ## debugging
+        print(f"Length of people array: {len(self.people)} vs Len of alive + dead: {len(step_alive_people) + len(step_dead_people)}")
+        print(f"len alive: {len(step_alive_people)}")
+        print(f"len dead: {len(step_dead_people)}")
+        print(f"len vaccinated: {len(step_vaccinated_people)}")
+        print(f"len unvaccinated: {len(step_unvaccinated_people)}")
+        print(f"len infected: {len(step_infected_people)}")
+        print(f"len healthy: {len(step_healthy_people)}")
+        ##
+        if (len(step_alive_people)) < 100:
+            k = len(step_alive_people)
+        for person in step_infected_people:
+            if person.is_alive:
+                if person.infection:
+                    random_sample = random.sample(step_alive_people, k)
                     for random_person in random_sample:
                         self.interaction(person, random_person)
-
                     if not person.did_survive_infection():
                         person.is_alive = False
                         self.death_counter += 1
                         self.dead_people.append(person)
-                        self.people.remove(person)
+                        # self.people.remove(person)
                     else:
                         self.vacc_counter += 1
                         person.is_vaccinated = True
@@ -173,9 +199,7 @@ class Simulation(object):
             random_infection_chance = random.random()
             if random_infection_chance < self.virus.repro_rate:
                 self.newly_infected.append(random_person)
-            
-        # TODO: Call logger method during this method.
-        # logger.log_interactions(self.time_step_counter, self.number_of_interactions, )
+
 
     def _infect_newly_infected(self):
         # print('len(self.newly_infected)')
