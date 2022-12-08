@@ -18,6 +18,8 @@ class Simulation(object):
         self.vacc_percentage = vacc_percentage
         self.initial_infected = initial_infected
         self.people = self._create_population()
+        self.step_vaccine_saves = 0
+        self.vaccine_saves = 0
         # self.logger = Logger()
 
         # TODO: Store the virus in an attribute
@@ -39,12 +41,7 @@ class Simulation(object):
             people[i].is_vaccinated = True
         start_index = (self.pop_size - self.initial_infected)
         for i in range(start_index, (self.pop_size)):
-            # print(f'{people[i]._id} {people[i].infection}')
             people[i].infection = virus
-            # print(f'{people[i]._id} {people[i].infection}')
-        # print ('ID | is_alive | is_vax | infection')
-        # for person in people:
-        #     print (f'{person._id} | {person.is_alive} | {person.is_vaccinated} | {person.infection}')   
         return people
 
         # TODO: Create a list of people (Person instances). This list 
@@ -126,7 +123,6 @@ class Simulation(object):
         time_start = datetime.now()
         k = 100
 
-        #debugging
         step_alive_people = []
         step_dead_people = []
         step_infected_people = []
@@ -145,6 +141,7 @@ class Simulation(object):
                     step_unvaccinated_people.append(person)
             else:
                 step_dead_people.append(person)
+        #debugging
         print(f"Length of people array: {len(self.people)} vs Len of alive + dead: {len(step_alive_people) + len(step_dead_people)}")
         print(f"len alive: {len(step_alive_people)}")
         print(f"len dead: {len(step_dead_people)} // {len(self.dead_people)}")
@@ -177,9 +174,8 @@ class Simulation(object):
         s = time_interval.seconds
         ms = int(time_interval.microseconds / 1000)
         time_string = f'{s % 60}.{ms}'
-        logger.log_interactions(self.time_step_counter, self.number_of_interactions, len(self.newly_infected), self.death_counter, self.vacc_counter, time_string)
-
-        ###TODO: Add in a time counter so that a person gets vaccinated status after x number of days?
+        logger.log_interactions(self.time_step_counter, self.number_of_interactions, len(self.newly_infected), self.death_counter, self.vacc_counter, self.step_vaccine_saves, time_string)
+        self.step_vaccine_saves = 0
 
     def interaction(self, infected_person, random_person):
         # TODO: Finish this method.
@@ -202,18 +198,15 @@ class Simulation(object):
             random_infection_chance = random.random()
             if random_infection_chance < self.virus.repro_rate:
                 self.newly_infected.append(random_person)
+        elif random_person.is_alive:
+            self.step_vaccine_saves += 1
+            self.vaccine_saves += 1
 
 
     def _infect_newly_infected(self):
-        # print('len(self.newly_infected)')
-        # print(len(self.newly_infected))
         for person in self.newly_infected:
             person.infection = self.virus
         self.newly_infected = []
-        # TODO: Call this method at the end of every time step and infect each Person.
-        # TODO: Once you have iterated through the entire list of self.newly_infected, remember
-        # to reset self.newly_infected back to an empty list.
-
 
 if __name__ == "__main__":
 
@@ -234,16 +227,16 @@ if __name__ == "__main__":
     # virus_name = "Sniffles"
     # repro_num = 0.04
     # mortality_rate = 0.12
+    # # Set some values used by the simulation
+    # pop_size = 100000
+    # vacc_percentage = 0.11
+    # initial_infected = 3000
     
     virus_name = args.virus_name
     repro_num = args.repro_num
     mortality_rate = args.mortality_rate
     virus = Virus(virus_name, repro_num, mortality_rate)
 
-    # # Set some values used by the simulation
-    # pop_size = 100000
-    # vacc_percentage = 0.11
-    # initial_infected = 3000
 
     pop_size = args.pop_size
     vacc_percentage = args.vacc_percentage

@@ -1,5 +1,5 @@
 # SIMULATION SUMMARY
-This output file was generated at Dec/08/2022 20:25:09
+This output file was generated at Dec/08/2022 21:34:19
 ##Starting conditions
 - Initial population size: 100000
 - Population vaccination rate: 90.0%
@@ -10,119 +10,120 @@ This output file was generated at Dec/08/2022 20:25:09
 
 ## End of time step 1
 - Number of interactions: 1000
-- Number of new infections: 26
-- Number of people that died on this timestep: 9
-- Number of people vaccinated on this timestep: 1
+- Number of new infections: 30
+- Number of people that died on this timestep: 6
+- Number of people vaccinated on this timestep: 4
+- Number of times a vaccine prevented infection on this timestep: 900 
 - Sim calculation time for this step: 0.57 second(s)
 
 ## End of time step 2
-- Number of interactions: 2600
-- Number of new infections: 51
-- Number of people that died on this timestep: 19
-- Number of people vaccinated on this timestep: 7
-- Sim calculation time for this step: 0.67 second(s)
+- Number of interactions: 3000
+- Number of new infections: 79
+- Number of people that died on this timestep: 18
+- Number of people vaccinated on this timestep: 12
+- Number of times a vaccine prevented infection on this timestep: 2718 
+- Sim calculation time for this step: 0.63 second(s)
 
 ## End of time step 3
-- Number of interactions: 5100
-- Number of new infections: 127
-- Number of people that died on this timestep: 34
-- Number of people vaccinated on this timestep: 17
-- Sim calculation time for this step: 0.64 second(s)
+- Number of interactions: 7900
+- Number of new infections: 211
+- Number of people that died on this timestep: 55
+- Number of people vaccinated on this timestep: 24
+- Number of times a vaccine prevented infection on this timestep: 7073 
+- Sim calculation time for this step: 0.75 second(s)
 
 ## End of time step 4
-- Number of interactions: 12700
-- Number of new infections: 301
-- Number of people that died on this timestep: 99
-- Number of people vaccinated on this timestep: 28
-- Sim calculation time for this step: 0.87 second(s)
+- Number of interactions: 21100
+- Number of new infections: 481
+- Number of people that died on this timestep: 151
+- Number of people vaccinated on this timestep: 60
+- Number of times a vaccine prevented infection on this timestep: 19188 
+- Sim calculation time for this step: 0.111 second(s)
 
 ## End of time step 5
-- Number of interactions: 30100
-- Number of new infections: 686
-- Number of people that died on this timestep: 206
-- Number of people vaccinated on this timestep: 95
-- Sim calculation time for this step: 0.141 second(s)
+- Number of interactions: 48100
+- Number of new infections: 1062
+- Number of people that died on this timestep: 334
+- Number of people vaccinated on this timestep: 147
+- Number of times a vaccine prevented infection on this timestep: 43850 
+- Sim calculation time for this step: 0.210 second(s)
 
 ## End of time step 6
-- Number of interactions: 68600
-- Number of new infections: 1449
-- Number of people that died on this timestep: 481
-- Number of people vaccinated on this timestep: 205
-- Sim calculation time for this step: 0.282 second(s)
+- Number of interactions: 106200
+- Number of new infections: 1943
+- Number of people that died on this timestep: 729
+- Number of people vaccinated on this timestep: 333
+- Number of times a vaccine prevented infection on this timestep: 98477 
+- Sim calculation time for this step: 0.490 second(s)
 
 ## End of time step 7
-- Number of interactions: 144900
-- Number of new infections: 2256
-- Number of people that died on this timestep: 999
-- Number of people vaccinated on this timestep: 450
-- Sim calculation time for this step: 0.590 second(s)
+- Number of interactions: 194300
+- Number of new infections: 2362
+- Number of people that died on this timestep: 1377
+- Number of people vaccinated on this timestep: 566
+- Number of times a vaccine prevented infection on this timestep: 184849 
+- Sim calculation time for this step: 0.777 second(s)
 
 ## End of time step 8
-- Number of interactions: 225600
-- Number of new infections: 2239
-- Number of people that died on this timestep: 1585
-- Number of people vaccinated on this timestep: 671
-- Sim calculation time for this step: 0.729 second(s)
+- Number of interactions: 236200
+- Number of new infections: 1711
+- Number of people that died on this timestep: 1624
+- Number of people vaccinated on this timestep: 738
+- Number of times a vaccine prevented infection on this timestep: 229394 
+- Sim calculation time for this step: 0.709 second(s)
 
 ## End of time step 9
-- Number of interactions: 223900
-- Number of new infections: 1268
-- Number of people that died on this timestep: 1537
-- Number of people vaccinated on this timestep: 702
-- Sim calculation time for this step: 0.494 second(s)
+- Number of interactions: 171100
+- Number of new infections: 760
+- Number of people that died on this timestep: 1170
+- Number of people vaccinated on this timestep: 541
+- Number of times a vaccine prevented infection on this timestep: 168072 
+- Sim calculation time for this step: 0.416 second(s)
 
 ## End of time step 10
-- Number of interactions: 126800
-- Number of new infections: 443
-- Number of people that died on this timestep: 898
-- Number of people vaccinated on this timestep: 370
-- Sim calculation time for this step: 0.259 second(s)
+- Number of interactions: 76000
+- Number of new infections: 283
+- Number of people that died on this timestep: 529
+- Number of people vaccinated on this timestep: 231
+- Number of times a vaccine prevented infection on this timestep: 74978 
+- Sim calculation time for this step: 0.204 second(s)
 
 ## End of time step 11
-- Number of interactions: 44300
-- Number of new infections: 107
-- Number of people that died on this timestep: 309
-- Number of people vaccinated on this timestep: 134
-- Sim calculation time for this step: 0.128 second(s)
+- Number of interactions: 28300
+- Number of new infections: 79
+- Number of people that died on this timestep: 206
+- Number of people vaccinated on this timestep: 77
+- Number of times a vaccine prevented infection on this timestep: 27975 
+- Sim calculation time for this step: 0.111 second(s)
 
 ## End of time step 12
-- Number of interactions: 10700
-- Number of new infections: 24
-- Number of people that died on this timestep: 77
-- Number of people vaccinated on this timestep: 30
-- Sim calculation time for this step: 0.71 second(s)
+- Number of interactions: 7900
+- Number of new infections: 19
+- Number of people that died on this timestep: 41
+- Number of people vaccinated on this timestep: 38
+- Number of times a vaccine prevented infection on this timestep: 7820 
+- Sim calculation time for this step: 0.70 second(s)
 
 ## End of time step 13
-- Number of interactions: 2400
-- Number of new infections: 5
-- Number of people that died on this timestep: 16
+- Number of interactions: 1900
+- Number of new infections: 4
+- Number of people that died on this timestep: 11
 - Number of people vaccinated on this timestep: 8
-- Sim calculation time for this step: 0.58 second(s)
+- Number of times a vaccine prevented infection on this timestep: 1885 
+- Sim calculation time for this step: 0.59 second(s)
 
 ## End of time step 14
-- Number of interactions: 500
-- Number of new infections: 2
-- Number of people that died on this timestep: 5
+- Number of interactions: 400
+- Number of new infections: 1
+- Number of people that died on this timestep: 4
 - Number of people vaccinated on this timestep: 0
-- Sim calculation time for this step: 0.55 second(s)
+- Number of times a vaccine prevented infection on this timestep: 395 
+- Sim calculation time for this step: 0.54 second(s)
 
 ## End of time step 15
-- Number of interactions: 200
-- Number of new infections: 1
-- Number of people that died on this timestep: 1
-- Number of people vaccinated on this timestep: 1
-- Sim calculation time for this step: 0.54 second(s)
-
-## End of time step 16
-- Number of interactions: 100
-- Number of new infections: 1
-- Number of people that died on this timestep: 1
-- Number of people vaccinated on this timestep: 0
-- Sim calculation time for this step: 0.54 second(s)
-
-## End of time step 17
 - Number of interactions: 100
 - Number of new infections: 0
 - Number of people that died on this timestep: 1
 - Number of people vaccinated on this timestep: 0
+- Number of times a vaccine prevented infection on this timestep: 95 
 - Sim calculation time for this step: 0.54 second(s)
