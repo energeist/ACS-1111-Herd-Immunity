@@ -128,20 +128,21 @@ class Simulation(object):
         if (len(self.people)) < 100:
             k = len(self.people)
         for person in self.people:
-            if person.infection:
-                random_sample = random.sample(self.people, k)
-                for random_person in random_sample:
-                    self.interaction(person, random_person)
-                random_death = random.random()
-                if random_death < virus.mortality_rate:
-                    person.is_alive = False
-                    self.death_counter += 1
-                    self.dead_people.append(person)
-                    self.people.remove(person)
-                else:
-                    self.vacc_counter += 1
-                    person.is_vaccinated = True
-                    person.infection = None
+            if person.is_alive:
+                if person.infection:
+                    random_sample = random.sample(self.people, k)
+                    for random_person in random_sample:
+                        self.interaction(person, random_person)
+
+                    if not person.did_survive_infection():
+                        person.is_alive = False
+                        self.death_counter += 1
+                        self.dead_people.append(person)
+                        self.people.remove(person)
+                    else:
+                        self.vacc_counter += 1
+                        person.is_vaccinated = True
+                        person.infection = None
         time_end = datetime.now()
         time_interval = time_end - time_start
         s = time_interval.seconds
