@@ -18,6 +18,8 @@ class Simulation(object):
 
         # ending state attributes
         self.reason_for_ending = ''
+        self.current_infections = 0
+        self.current_dead = 0
         self.total_interactions = 0
         self.total_unique_infections = 0
 
@@ -36,7 +38,7 @@ class Simulation(object):
             people[i].is_vaccinated = True
         start_index = (self.pop_size - self.initial_infected)
         for i in range(start_index, (self.pop_size)):
-            people[i].infection = virus
+            people[i].infection = self.virus
         return people
 
     def _simulation_should_continue(self):
