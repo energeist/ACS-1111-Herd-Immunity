@@ -77,13 +77,23 @@ class Simulation(object):
         sim_ms = f'00{int(sim_time_interval.microseconds / 1000)}'[-3:]
         sim_time_string = f'{sim_s % 60}.{sim_ms}'
 
-        # calculated parameters here to keep the logger call clean
+        # calculated parameters here to keep the final logger call clean
         initial_vaxxed = round(int(pop_size)*float(vacc_percentage))
         pct_deaths_init = self.current_dead / self.pop_size * 100
         remaining_alive = pop_size - self.current_dead
         infect_pct_total = self.total_unique_infections / self.pop_size * 100
 
         self.logger.final_log(self.reason_for_ending, pop_size, self.current_dead, pct_deaths_init, remaining_alive, initial_vaxxed, self.current_vaccinated, self.total_unique_infections, infect_pct_total, self.vaccine_saves, sim_time_string)
+
+        # array data dict for end plot:
+        dict_of_arrays = {
+            'alive_array': self.alive_per_step,
+            'dead_array': self.deaths_per_step,
+            'vaccinated_array': self.vaccinated_per_step,
+            'vacc_saves_array': self.vaccine_saves_per_step
+        }
+
+        self.logger.end_plots(dict_of_arrays)
 
     def time_step(self):
         # This method will simulate interactions between people, calulate 
@@ -161,7 +171,7 @@ class Simulation(object):
         pct_alive_change = (self.alive_per_step[self.time_step_counter] - self.alive_per_step[self.time_step_counter - 1]) / self.alive_per_step[self.time_step_counter - 1] * 100
 
         # avoiding div by zero errors here
-
+        
         if self.deaths_per_step[self.time_step_counter - 1] == 0:
             deaths_divisor = 1
         else:
@@ -236,7 +246,7 @@ if __name__ == "__main__":
     sim = Simulation(virus, pop_size, vacc_percentage, initial_infected)
 
     # run sim
-    
+
     sim.run()
 
 ### NOTE:

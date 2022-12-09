@@ -1,4 +1,5 @@
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 class Logger(object):
     def __init__(self, file_name):
@@ -24,4 +25,19 @@ class Logger(object):
         outfile = open(self.file_name, 'a')
         outfile.write(f'\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Percentage of total population that died: {pct_deaths_total:.2f}%\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Percentage of total population infected: {infect_pct_total:.2f}%\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n- Overall sim runtime: {sim_time_string} seconds')
         outfile.close()
+
+    def end_plots(self, data_arrays):
+        step = []
+        print(data_arrays['alive_array'])
+        print(data_arrays['dead_array'])
+        print(data_arrays['vaccinated_array'])
+        print(data_arrays['vacc_saves_array'])
+        for i in range(len(data_arrays['alive_array'])):
+            step.append(i)
+
+        print(len(step))
+        print(step)
+        # plt.plot(step, deaths)
+        # plt.show()
+
 
