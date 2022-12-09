@@ -23,6 +23,7 @@ class Simulation(object):
 
         # pre-setting array starting condition entries for ease of application
         self.alive_per_step = [pop_size]
+        self.pct_alive_change_array = [0]
         self.deaths_per_step = [0]  
         self.vaccinated_per_step = [0]
         self.vaccine_saves_per_step = [0]
@@ -88,6 +89,7 @@ class Simulation(object):
         # array data dict for end plot:
         dict_of_arrays = {
             'alive_array': self.alive_per_step,
+            'pop_pct_change_array': self.pct_alive_change_array,
             'dead_array': self.deaths_per_step,
             'vaccinated_array': self.vaccinated_per_step,
             'vacc_saves_array': self.vaccine_saves_per_step
@@ -168,7 +170,9 @@ class Simulation(object):
         self.total_interactions += self.step_number_of_interactions
         self.step_vaccine_saves = 0
 
-        pct_alive_change = (self.alive_per_step[self.time_step_counter] - self.alive_per_step[self.time_step_counter - 1]) / self.alive_per_step[self.time_step_counter - 1] * 100
+        self.pct_alive_change = -1* (self.alive_per_step[self.time_step_counter] - self.alive_per_step[self.time_step_counter - 1]) / self.alive_per_step[self.time_step_counter - 1] * 100
+
+        self.pct_alive_change_array.append(self.pct_alive_change)
 
         # avoiding div by zero errors here
         
@@ -193,7 +197,7 @@ class Simulation(object):
 
         vacc_saves_pct_prev_step = (self.vaccine_saves_per_step[self.time_step_counter] - self.vaccine_saves_per_step[self.time_step_counter - 1]) / vaccs_saves_divisor * 100
 
-        self.logger.log_percent_change(pct_alive_change, deaths_pct_prev_step, vaccinations_pct_prev_step, vacc_saves_pct_prev_step)
+        self.logger.log_percent_change(self.pct_alive_change, deaths_pct_prev_step, vaccinations_pct_prev_step, vacc_saves_pct_prev_step)
 
     def interaction(self, infected_person, random_person):
         self.step_number_of_interactions += 1

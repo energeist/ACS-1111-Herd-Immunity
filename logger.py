@@ -18,7 +18,7 @@ class Logger(object):
 
     def log_percent_change(self, pop_pct_change, deaths_pct_prev_step, vaccinations_pct_prev_step, vacc_saves_pct_prev_step):
         outfile = open(self.file_name, 'a')
-        outfile.write(f'\n- Change in population: {pop_pct_change:.3f}% as of end of step\n- Change in deaths/step: {deaths_pct_prev_step:.2f}% from previous step\n- Change in vaccinations/step: {vaccinations_pct_prev_step:.2f}% from previous step\n- Change in vaccination saves/step: {vacc_saves_pct_prev_step:.2f}% from previous step\n')
+        outfile.write(f'\n- Population lost on this step: {pop_pct_change:.3f}% as of end of step\n- Change in deaths/step: {deaths_pct_prev_step:.2f}% from previous step\n- Change in vaccinations/step: {vaccinations_pct_prev_step:.2f}% from previous step\n- Change in vaccination saves/step: {vacc_saves_pct_prev_step:.2f}% from previous step\n')
         outfile.close()
 
     def final_log(self, reason_for_ending, pop_size, total_deaths, pct_deaths_total, remaining_alive, initial_vacc, final_vacc, total_unique_infections, infect_pct_total, total_vaccine_saves, sim_time_string):
@@ -28,16 +28,51 @@ class Logger(object):
 
     def end_plots(self, data_arrays):
         step = []
-        print(data_arrays['alive_array'])
-        print(data_arrays['dead_array'])
-        print(data_arrays['vaccinated_array'])
-        print(data_arrays['vacc_saves_array'])
+
         for i in range(len(data_arrays['alive_array'])):
             step.append(i)
 
-        print(len(step))
-        print(step)
-        # plt.plot(step, deaths)
-        # plt.show()
+        max_pop = int(data_arrays['alive_array'][0])
+        min_pop = int(round(data_arrays['alive_array'][int(len(data_arrays['alive_array'])-1)]))  
+        
+        fig, ax1 = plt.subplots()
+        plt.xlabel("Timestep")
+        ax1.plot(step, data_arrays['alive_array'], color ='blue')
+        ax1.set_ylim([min_pop/1.025, max_pop*1.025])
+        ax1.set_ylabel('Living population on timestep (#)', color='blue')
+        ax1.tick_params(axis='y', labelcolor='blue')
+        
+
+        ax2 = ax1.twinx()
+        ax2.scatter(step, data_arrays['pop_pct_change_array'], color='red')
+        ax2.set_ylabel('Population decrease per step (%)', color='red')
+        ax2.tick_params(axis='y', labelcolor='red')
+        ax2.spines['left'].set_color('blue')
+        ax2.spines['right'].set_color('red')
+        plt.title("Change in Population Over Duration of Simulation")
+        plt.savefig('popchange.png')
+        plt.close()
+
+        plt.scatter(step, data_arrays['dead_array'], label = "Deaths per timestep")
+        plt.title("# of deaths on each simulation timestep")
+        plt.xlabel("Timestep")
+        plt.ylabel("Number of deaths per step")
+        plt.savefig('deaths.png')
+        plt.close()
+
+        plt.scatter(step, data_arrays['vaccinated_array'], label = "New vaccinations per timestep")
+        plt.title("# of New Vaccinations on Each Simulation Timestep")
+        plt.xlabel("Timestep")
+        plt.ylabel("Number of new vaccinations")
+        plt.savefig('vaccinations.png')
+        plt.close()
+
+        plt.scatter(step, data_arrays['vacc_saves_array'], label = "Infection preventions per timestep")
+        plt.title("# of Times a Vaccine Prevented Infection Per Timestep")
+        plt.xlabel("Timestep")
+        plt.ylabel("Number of prevented infections")
+        plt.savefig('prevention.png')
+        plt.close()
+
 
 
