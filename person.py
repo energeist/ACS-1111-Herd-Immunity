@@ -1,5 +1,4 @@
 import random
-# random.seed(42)
 from virus import Virus
 
 
@@ -64,25 +63,34 @@ if __name__ == "__main__":
     # Now that you have a list of 100 people. Resolve whether the Person 
     # survives the infection or not by looping over the people list. 
 
-    did_survived = 0
+    did_survive = 0
     did_not_survive = 0
+
+    # NOTE: ADDITIONAL TESTS FOR person.py HERE
+
+    # set random.seed() for tests
+    random.seed(42)
     
     for person in people:
         # For each person call that person's did_survive_infection method
         survived = person.did_survive_infection()
 
     # Count the people that survived and did not survive: 
+       
         if survived:
-            did_survived += 1
+            did_survive += 1
         else:
-            did_not_survive += 1
-            
-    print(did_survived)
-    print(did_not_survive)
+            did_not_survive += 1       
 
-    # The results should roughly match the mortality rate of the virus
-    # For example if the mortality rate is 0.2 rough 20% of the people 
-    # should succumb. 
+    # NOTE: ADDITIONAL TEST 1 - test person.did_survive_infection() method with virus:
+    # virus = Virus("Dysentery", 0.7, 0.2)
+    # mortality rate of 20%
+    # repro rate of 70%
+
+    assert did_survive == 81
+    assert did_not_survive == 19        
+
+    # this is approximately 20% mortality!
 
     # Stretch challenge! 
     # Check the infection rate of the virus by making a group of 
@@ -102,7 +110,61 @@ if __name__ == "__main__":
             person.infection = virus
             new_infection += 1
     
-    print(new_infection)
-    # Now count the infected and uninfect people from this group of people. 
-    # The number of infectedf people should be roughly the same as the 
-    # infection rate of the virus.
+    #NOTE: ADDITIONAL TEST 2 - test infection rate of virus:
+
+    assert new_infection == 71
+
+    # This is approximately 70% infection!
+
+    #NOTE: ADDITIONAL TEST 3 - test infection and mortality of new virus:
+
+    # - virus name: Ebola
+    # - virus reproductive rate: 25%
+    # - virus mortality rate: 70%
+
+    virus2 = Virus('Ebola', 0.25, 0.7)
+    people = []
+
+    # create new population
+
+    for i in range(1, 101):
+        people.append(Person(i, False, virus2))
+
+    # Now that you have a list of 100 people. Resolve whether the Person 
+    # survives the infection or not by looping over the people list. 
+
+    did_survive = 0
+    did_not_survive = 0
+
+    # Count the people that survived and did not survive: 
+    for person in people:
+        survived = person.did_survive_infection()
+       
+        if survived:
+            did_survive += 1
+        else:
+            did_not_survive += 1
+    
+    # new uninfected population
+    uninfected_people = []
+    new_infection = 0
+    for i in range(1, 101):
+        uninfected_people.append(Person(i, False))
+    
+    for person in uninfected_people:
+        random_infection = random.random()
+        if random_infection < virus2.repro_rate:
+            person.infection = virus2
+            new_infection += 1      
+
+    # checks on mortality
+    assert did_survive == 32
+    assert did_not_survive == 68
+
+    # This is approx 70% mortality!
+
+    # checks on infection
+
+    assert new_infection == 19
+
+    # ...sorta close to 25, this seed just has an off roll here.
