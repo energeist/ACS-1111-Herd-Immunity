@@ -19,6 +19,8 @@ python3 simulation.py 100000 0.90 Ebola 0.70 0.25 10
 
 - Percentage of total population that died: 6.38%
 
+9% population infected * 70% mortality rate ~= 6.3% which is within margin of error for a random simulation.
+
 4 - Out of all interactions sick individuals had during the entire simulation, how many times, in total, did a vaccination save someone from potentially becoming infected?
 
 - Total number of times a vaccine prevented infection: 865645
