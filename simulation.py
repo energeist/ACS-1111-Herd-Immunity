@@ -34,6 +34,10 @@ class Simulation(object):
         self.deaths_per_step = []
         self.vaccinated_per_step = []
         self.vaccine_saves_per_step = []
+        self.current_alive = 0
+        self.current_dead = 0
+        self.current_infections = 0
+        self.current_vaccinated = 0
         
         # TODO: Store the virus in an attribute
         # TODO: Store pop_size in an attribute
@@ -64,19 +68,15 @@ class Simulation(object):
         # TODO: Return the list of people
 
     def _simulation_should_continue(self):
-        self.current_alive = 0
-        self.current_dead = 0
-        self.current_infections = 0
-        self.current_vaccinated = 0
-        for person in self.people:
-            if person.is_alive:
-                self.current_alive += 1
-                if person.is_vaccinated:
-                    self.current_vaccinated += 1
-                if person.infection:
-                    self.current_infections += 1
-            else:
-                self.current_dead += 1
+        # for person in self.people:
+        #     if person.is_alive:
+        #         self.current_alive += 1
+        #         if person.is_vaccinated:
+        #             self.current_vaccinated += 1
+        #         if person.infection:
+        #             self.current_infections += 1
+        #     else:
+        #         self.current_dead += 1
             # if person.is_alive and not person.is_vaccinated:
             #     return True
         print('current infections:')
@@ -132,6 +132,10 @@ class Simulation(object):
         # have that person interact with 100 other living people 
         # Run interactions by calling the interaction method below. That method
         # takes the infected person and a random person
+        self.current_alive = 0
+        self.current_dead = 0
+        self.current_infections = 0
+        self.current_vaccinated = 0
         self.step_number_of_interactions = 0
         self.step_death_counter = 0
         self.step_vacc_counter = 0
@@ -151,29 +155,27 @@ class Simulation(object):
         # list of unvaccinated people?
         step_unvaccinated_people = 0
 
+        # self.current_alive = 0
+        # self.current_dead = 0
+        # self.current_infections = 0
+        # self.current_vaccinated = 0
+
         for person in self.people:
             if person.is_alive:
                 step_alive_people.append(person)
+                self.current_alive += 1
                 if person.infection:
                     step_infected_people.append(person)
+                    self.current_infections += 1
                 else: 
                     step_healthy_people += 1
                 if person.is_vaccinated:
-                    step_vaccinated_people += 1
+                    self.current_vaccinated += 1
                 else:
                     step_unvaccinated_people += 1
             else:
-                step_dead_people += 1
-        ## data for matplotlib
-        #debugging
-        print(f"Length of people array: {len(self.people)} vs Len of alive + dead: {len(step_alive_people) + step_dead_people}")
-        print(f"len alive: {len(step_alive_people)}")
-        print(f"len dead: {step_dead_people}")
-        print(f"len vaccinated: {step_vaccinated_people}")
-        print(f"len unvaccinated: {step_unvaccinated_people}")
-        print(f"len infected: {len(step_infected_people)}")
-        print(f"len healthy: {step_healthy_people}")
-        ##
+                self.current_dead += 1
+
         if (len(step_alive_people)) < 100:
             k = len(step_alive_people)
         for person in step_infected_people:
