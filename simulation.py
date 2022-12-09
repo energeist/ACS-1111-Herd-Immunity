@@ -161,7 +161,7 @@ class Simulation(object):
         pct_alive_change = (self.alive_per_step[self.time_step_counter] - self.alive_per_step[self.time_step_counter - 1]) / self.alive_per_step[self.time_step_counter - 1] * 100
 
         # avoiding div by zero errors here
-        
+
         if self.deaths_per_step[self.time_step_counter - 1] == 0:
             deaths_divisor = 1
         else:
@@ -236,19 +236,8 @@ if __name__ == "__main__":
     sim = Simulation(virus, pop_size, vacc_percentage, initial_infected)
 
     # run sim
-    sim.run()
-
     
-
-    print("ending data arrays")
-    print(sim.alive_per_step)
-    print(len(sim.alive_per_step))
-    print(sim.deaths_per_step)
-    print(len(sim.deaths_per_step))
-    print(sim.vaccinated_per_step)
-    print(len(sim.vaccinated_per_step))
-    print(sim.vaccine_saves_per_step)
-    print(len(sim.vaccine_saves_per_step))
+    sim.run()
 
 ### NOTE:
 
