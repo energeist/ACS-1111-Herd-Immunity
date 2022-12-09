@@ -23,7 +23,7 @@ class Logger(object):
 
     def final_log(self, reason_for_ending, pop_size, total_deaths, pct_deaths_total, remaining_alive, initial_vacc, final_vacc, total_unique_infections, infect_pct_total, total_vaccine_saves, sim_time_string):
         outfile = open(self.file_name, 'a')
-        outfile.write(f'\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Percentage of total population that died: {pct_deaths_total:.2f}%\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Percentage of total population infected: {infect_pct_total:.2f}%\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n- Overall sim runtime: {sim_time_string} seconds')
+        outfile.write(f"\n## END OF SIMULATION SUMMARY:\n- Reason for simulation ending: {reason_for_ending}\n- Initial population: {pop_size}\n- Total deaths: {total_deaths}\n- Percentage of total population that died: {pct_deaths_total:.2f}%\n- Remaining living population: {remaining_alive}\n- Initial vaccinated population: {initial_vacc}\n- Final vaccinated population: {final_vacc}\n- Total number of unique infections: {total_unique_infections}\n- Percentage of total population infected: {infect_pct_total:.2f}%\n- Total number of times a vaccine prevented infection: {total_vaccine_saves}\n- Overall sim runtime: {sim_time_string} seconds")
         outfile.close()
 
     def end_plots(self, data_arrays):
@@ -41,7 +41,6 @@ class Logger(object):
         ax1.set_ylim([min_pop/1.025, max_pop*1.025])
         ax1.set_ylabel('Living population on timestep (#)', color='blue')
         ax1.tick_params(axis='y', labelcolor='blue')
-        
 
         ax2 = ax1.twinx()
         ax2.scatter(step, data_arrays['pop_pct_change_array'], color='red')
@@ -73,6 +72,43 @@ class Logger(object):
         plt.ylabel("Number of prevented infections")
         plt.savefig('prevention.png')
         plt.close()
+
+# Test this class
+if __name__ == "__main__":
+    logger = Logger("test_log_class.md")
+
+    pop_size = 1000
+    vacc_percentage = 0.11
+    initial_infected = 30
+    virus_name = "Sniffles"
+    mortality_rate = 0.12
+    basic_repro_num = 0.04
+    
+    logger.write_metadata(pop_size, vacc_percentage, initial_infected, virus_name, mortality_rate, basic_repro_num)
+
+    step_number = 10
+    number_of_interactions = 999999
+    number_of_new_infections = 88888
+    number_new_dead = 77777
+    number_new_vaccinated = 666
+    step_vaccine_saves = 1234567
+    time_interval = '1 step'
+
+    logger.log_interactions(step_number, number_of_interactions, number_of_new_infections, number_new_dead, number_new_vaccinated, step_vaccine_saves, time_interval)
+
+    reason_for_ending = "Test log ended"
+    total_deaths = 'too many'
+    pct_deaths_total = 99.99
+    remaining_alive = 'a pittance'
+    initial_vacc = 'not enough'
+    final_vacc = 'far too few'
+    total_unique_infections = "I can't bear to look"
+    infect_pct_total = 100
+    total_vaccine_saves = 'regrettably low'
+    sim_time_string = '00000000'
+
+    logger.final_log(reason_for_ending, pop_size, total_deaths, pct_deaths_total, remaining_alive, initial_vacc, final_vacc, total_unique_infections, infect_pct_total, total_vaccine_saves, sim_time_string)
+
 
 
 

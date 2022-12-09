@@ -5,13 +5,23 @@ class Virus(object):
         self.name = name
         self.repro_rate = repro_rate
         self.mortality_rate = mortality_rate
-        # TODO Define the other attributes of Virus
 
 # Test this class
 if __name__ == "__main__":
-    # Test your virus class by making an instance and confirming 
-    # it has the attributes you defined
     virus = Virus("HIV", 0.8, 0.3)
     assert virus.name == "HIV"
     assert virus.repro_rate == 0.8
     assert virus.mortality_rate == 0.3
+
+    # 2 extra tests
+    
+    virus2 = Virus("Sniffles", 0.04, 0.12)
+    assert virus2.name == "Sniffles"
+    assert virus2.repro_rate == 0.04
+    assert virus2.mortality_rate == 0.12
+
+    virus3 = Virus("Brain Problems", 0.5, 0.99)
+    assert virus3.name == "Brain Problems"
+    assert virus3.repro_rate == 0.5
+    assert virus3.mortality_rate == 0.99
+
